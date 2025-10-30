@@ -1,4 +1,3 @@
-import wailsLogo from './assets/wails.png'
 import './App.css'
 
 function App() {
@@ -8,9 +7,6 @@ function App() {
                 <h1 className="content-center">PRAGUE</h1>
             </div>
             <div className="w-fit max-w-md">
-                <a href="https://wails.io" target="_blank">
-                    <img src={wailsLogo} className="logo wails" alt="Wails logo" />
-                </a>
             </div>
         </div>
     )
