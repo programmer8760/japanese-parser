@@ -2,5 +2,10 @@ package types
 
 type Token struct {
 	Surface string `json:"surface"`
-	Features string `json:"features"`
+	Pronunciation string `json:"pronuncition"`
+	POS []string `json:"pos"`
+	BaseForm string `json:"base_form"`
+	InflectionalForm string `json:"inflectional_form"`
+	InflectionalType string `json:"inflectional_type"`
+	Translation string `json:"translation"`
 }
