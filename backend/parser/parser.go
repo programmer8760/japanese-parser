@@ -1,8 +1,6 @@
 package parser
 
 import (
-	"strings"
-
 	"japanese-parser/backend/types"
 
 	"github.com/ikawaha/kagome-dict/ipa"
@@ -26,11 +24,31 @@ func (p *Parser) Tokenize(text string) ([]types.Token, error) {
 	result := make([]types.Token, 0, len(tokens))
 
 	for _, token := range tokens {
-		features := strings.Join(token.Features(), ",")
+		pronunciation, pronunciationExist := token.Pronunciation()
+		baseForm, baseFormExist := token.BaseForm()
+		POS := token.POS()
+		inflectionalForm, inflectionalFormExist := token.InflectionalForm()
+		inflectionalType, inflectionalTypeExist := token.InflectionalType()
+		if !pronunciationExist {
+			pronunciation = "*"
+		}
+		if !baseFormExist {
+			baseForm = "*"
+		}
+		if !inflectionalFormExist {
+			inflectionalForm = "*"
+		}
+		if !inflectionalTypeExist {
+			inflectionalType = "*"
+		}
 		result = append(result, types.Token{
 			Surface: token.Surface,
-			Features: features,
+			Pronunciation: pronunciation,
+			POS: POS,
+			BaseForm: baseForm,
+			InflectionalForm: inflectionalForm,
+			InflectionalType: inflectionalType,
 		})
 	}
-	 return result, nil
+	return result, nil
 }
