@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"context"
 
-	"japanese-parser/backend/parser"
-	"japanese-parser/backend/types"
+	"github.com/programmer8760/japanese-parser/backend/parser"
+	"github.com/programmer8760/japanese-parser/backend/types"
 )
 
 // App struct

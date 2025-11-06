@@ -1,4 +1,4 @@
-module japanese-parser
+module github.com/programmer8760/japanese-parser
 
 go 1.23.0
 

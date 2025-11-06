@@ -2,7 +2,8 @@ package main
 
 import (
 	"embed"
-	"japanese-parser/backend/app"
+
+	"github.com/programmer8760/japanese-parser/backend/app"
 
 	"github.com/wailsapp/wails/v2"
 	"github.com/wailsapp/wails/v2/pkg/options"

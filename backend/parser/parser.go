@@ -1,7 +1,7 @@
 package parser
 
 import (
-	"japanese-parser/backend/types"
+	"github.com/programmer8760/japanese-parser/backend/types"
 
 	"github.com/ikawaha/kagome-dict/ipa"
   "github.com/ikawaha/kagome/v2/tokenizer"
