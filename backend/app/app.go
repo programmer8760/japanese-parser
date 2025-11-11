@@ -6,12 +6,14 @@ import (
 
 	"github.com/programmer8760/japanese-parser/backend/parser"
 	"github.com/programmer8760/japanese-parser/backend/types"
+	"github.com/programmer8760/japanese-parser/backend/dictionary"
 )
 
 // App struct
 type App struct {
 	ctx context.Context
 	parser *parser.Parser
+	dictionary *dictionary.Dictionary
 }
 
 // NewApp creates a new App application struct
@@ -28,6 +30,11 @@ func (a *App) Startup(ctx context.Context) {
 	a.parser, err = parser.NewParser()
 	if err != nil {
 		fmt.Println("Error initializing parser: ", err.Error())
+	}
+
+	a.dictionary, err = dictionary.NewDictionary()
+	if err != nil {
+		fmt.Println("Error initializing dictionary: ", err.Error())
 	}
 }
 
@@ -54,4 +61,12 @@ func (a *App) Tokenize(text string) ([]types.Token, error) {
 	}
 	
 	return a.parser.Tokenize(text)
+}
+
+func (a *App) Lookup(kanji string, reading string) ([]types.DictionaryEntry, error) {
+	if a.dictionary == nil {
+		return nil, fmt.Errorf("dictionary not initialized")
+	}
+
+	return a.dictionary.Lookup(kanji, reading)
 }
