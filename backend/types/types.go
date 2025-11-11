@@ -9,3 +9,10 @@ type Token struct {
 	InflectionalType string `json:"inflectional_type"`
 	Translation string `json:"translation"`
 }
+
+type DictionaryEntry struct {
+	Kanji string
+	Reading string
+	Translations []string
+	WordID int
+}

@@ -7,14 +7,8 @@ import(
 	"log"
 	"strings"
 	"github.com/programmer8760/japanese-parser/backend/parser"
+	"github.com/programmer8760/japanese-parser/backend/types"
 )
-
-type Entry struct {
-	Kanji string
-	Reading string
-	Translations []string
-	WordID int
-}
 
 func toString(v any) string {
     if s, ok := v.(string); ok {
@@ -53,7 +47,7 @@ func main() {
 		log.Fatalf("Failed to read directory: %v", err)
 	}
 
-	var dictRu []Entry
+	var dictRu []types.DictionaryEntry
 
 	parser, _ := parser.NewParser()
 
@@ -71,7 +65,7 @@ func main() {
 			for _, row := range raw {
 				split, err := parser.Tokenize(toString(row[0]))
 				if len(split) == 1 && err == nil && toStringSlice(row[5])[0] != ""  {
-					dictRu = append(dictRu, Entry{
+					dictRu = append(dictRu, types.DictionaryEntry{
 						Kanji: toString(row[0]),
 						Reading: toString(row[1]),
 						Translations: toStringSlice(row[5]),
