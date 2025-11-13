@@ -32,13 +32,13 @@ func (p *Parser) Tokenize(text string) ([]types.Token, error) {
 	result := make([]types.Token, 0, len(tokens))
 
 	for _, token := range tokens {
-		pronunciation, pronunciationExist := token.Pronunciation()
+		reading, readingExist := token.Reading()
 		baseForm, baseFormExist := token.BaseForm()
 		POS := token.POS()
 		inflectionalForm, inflectionalFormExist := token.InflectionalForm()
 		inflectionalType, inflectionalTypeExist := token.InflectionalType()
-		if !pronunciationExist {
-			pronunciation = "*"
+		if !readingExist {
+			reading = "*"
 		}
 		if !baseFormExist {
 			baseForm = "*"
@@ -56,12 +56,14 @@ func (p *Parser) Tokenize(text string) ([]types.Token, error) {
 
 		result = append(result, types.Token{
 			Surface: token.Surface,
-			Pronunciation: pronunciation,
 			POS: POS,
 			BaseForm: baseForm,
 			InflectionalForm: inflectionalForm,
 			InflectionalType: inflectionalType,
 			Translations: p.dictionary.Lookup(token.Surface, reading),
+			Reading: reading,
+			Romaji: kana.KanaToRomaji(reading),
+			Polivanov: "",
 		})
 	}
 	return result, nil
