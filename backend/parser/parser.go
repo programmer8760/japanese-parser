@@ -2,13 +2,17 @@ package parser
 
 import (
 	"github.com/programmer8760/japanese-parser/backend/types"
+	"github.com/programmer8760/japanese-parser/backend/dictionary"
 
 	"github.com/ikawaha/kagome-dict/ipa"
   "github.com/ikawaha/kagome/v2/tokenizer"
+
+	"github.com/gojp/kana"
 )
 
 type Parser struct {
 	tokenizer *tokenizer.Tokenizer
+	dictionary *dictionary.Dictionary
 }
 
 func NewParser() (*Parser, error) {
@@ -16,7 +20,11 @@ func NewParser() (*Parser, error) {
 	if err != nil {
 		return nil, err
 	}
-	return &Parser{tokenizer: t}, nil
+	d, err := dictionary.NewDictionary()
+	if err != nil {
+		return nil, err
+	}
+	return &Parser{tokenizer: t, dictionary: d}, nil
 }
 
 func (p *Parser) Tokenize(text string) ([]types.Token, error) {
@@ -41,6 +49,11 @@ func (p *Parser) Tokenize(text string) ([]types.Token, error) {
 		if !inflectionalTypeExist {
 			inflectionalType = "*"
 		}
+
+		if !kana.IsKatakana(token.Surface) {
+			reading = katakanaToHiragana(reading)
+		}
+
 		result = append(result, types.Token{
 			Surface: token.Surface,
 			Pronunciation: pronunciation,
@@ -48,7 +61,18 @@ func (p *Parser) Tokenize(text string) ([]types.Token, error) {
 			BaseForm: baseForm,
 			InflectionalForm: inflectionalForm,
 			InflectionalType: inflectionalType,
+			Translations: p.dictionary.Lookup(token.Surface, reading),
 		})
 	}
 	return result, nil
+}
+
+func katakanaToHiragana(s string) string {
+    runes := []rune(s)
+    for i, r := range runes {
+        if r >= 0x30A1 && r <= 0x30F6 {
+            runes[i] = r - 0x60
+        }
+    }
+    return string(runes)
 }

@@ -3,6 +3,7 @@ module github.com/programmer8760/japanese-parser
 go 1.23.0
 
 require (
+	github.com/gojp/kana v0.1.0
 	github.com/ikawaha/kagome-dict/ipa v1.2.5
 	github.com/ikawaha/kagome/v2 v2.10.2
 	github.com/wailsapp/wails/v2 v2.10.2
