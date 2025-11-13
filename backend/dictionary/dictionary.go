@@ -3,6 +3,7 @@ package dictionary
 import(
 	"os"
 	"encoding/json"
+
 	"github.com/programmer8760/japanese-parser/backend/types"
 )
 
@@ -31,8 +32,7 @@ func NewDictionary() (*Dictionary, error) {
 	return &Dictionary{db: db}, nil
 }
 
-func (d *Dictionary) Lookup(kanji string, reading string) ([]types.DictionaryEntry, error) {
-	var results []types.DictionaryEntry
+func (d *Dictionary) Lookup(kanji string, reading string) (results []types.DictionaryEntry) {
 	if reading != "" {
 		for _, e := range d.db[kanji] {
 			if e.Reading == reading {
@@ -42,5 +42,6 @@ func (d *Dictionary) Lookup(kanji string, reading string) ([]types.DictionaryEnt
 	} else {
 		results = d.db[kanji]
 	}
-	return results, nil
+
+	return
 }
