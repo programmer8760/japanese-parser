@@ -18,3 +18,10 @@ type DictionaryEntry struct {
 	Translations []string
 	WordID int
 }
+
+type ParserResult struct {
+	Tokens []Token
+	HKKRatio []int
+	POSRatio []int
+	UniqueWords []Token
+}
