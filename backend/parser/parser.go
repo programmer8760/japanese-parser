@@ -96,8 +96,8 @@ func (p *Parser) Tokenize(text string) ([]types.Token, error) {
 			InflectionalType: inflectionalType,
 			Translations: translations,
 			Reading: reading,
-			Polivanov: "",
 			Romaji: utils.KanaToRomaji(reading),
+			Polivanov: utils.KanaToPolivanov(reading),
 		})
 	}
 	return result, nil
