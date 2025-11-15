@@ -3,6 +3,7 @@ package parser
 import (
 	"github.com/programmer8760/japanese-parser/backend/types"
 	"github.com/programmer8760/japanese-parser/backend/dictionary"
+	"github.com/programmer8760/japanese-parser/backend/utils"
 
 	"github.com/ikawaha/kagome-dict/ipa"
   "github.com/ikawaha/kagome/v2/tokenizer"
@@ -61,7 +62,7 @@ func (p *Parser) Tokenize(text string) ([]types.Token, error) {
 		}
 
 		if !kana.IsKatakana(token.Surface) {
-			reading = katakanaToHiragana(reading)
+			reading = utils.KatakanaToHiragana(reading)
 		}
 
 		result = append(result, types.Token{
@@ -77,14 +78,4 @@ func (p *Parser) Tokenize(text string) ([]types.Token, error) {
 		})
 	}
 	return result, nil
-}
-
-func katakanaToHiragana(s string) string {
-    runes := []rune(s)
-    for i, r := range runes {
-        if r >= 0x30A1 && r <= 0x30F6 {
-            runes[i] = r - 0x60
-        }
-    }
-    return string(runes)
 }
