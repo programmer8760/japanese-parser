@@ -35,6 +35,16 @@ func (p *Parser) Tokenize(text string) ([]types.Token, error) {
 		reading, readingExist := token.Reading()
 		baseForm, baseFormExist := token.BaseForm()
 		POS := token.POS()
+
+		switch token.Surface {
+		case "は":
+			if POS[0] == "助詞" { reading = "ワ" }
+		case "へ":
+				if POS[0] == "助詞" { reading = "エ" }
+		case "を":
+				if POS[0] == "助詞" { reading = "オ" }
+		}
+
 		inflectionalForm, inflectionalFormExist := token.InflectionalForm()
 		inflectionalType, inflectionalTypeExist := token.InflectionalType()
 		if !readingExist {
