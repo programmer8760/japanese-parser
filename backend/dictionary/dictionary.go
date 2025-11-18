@@ -1,24 +1,22 @@
 package dictionary
 
 import(
-	"os"
 	"encoding/json"
+	_ "embed"
 
 	"github.com/programmer8760/japanese-parser/backend/types"
 )
+
+//go:embed dictionary.json
+var dictionaryJSON []byte
 
 type Dictionary struct {
 	db map[string][]types.DictionaryEntry
 }
 
 func NewDictionary() (*Dictionary, error) {
-	fileBytes, err := os.ReadFile("backend/dictionary/dictionary.json")
-	if err != nil {
-		return nil, err
-	}
-
 	var jsonEntries []types.DictionaryEntry
-	if err := json.Unmarshal(fileBytes, &jsonEntries); err != nil {
+	if err := json.Unmarshal(dictionaryJSON, &jsonEntries); err != nil {
 		return nil, err
 	}
 
