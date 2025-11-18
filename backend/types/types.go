@@ -19,9 +19,15 @@ type DictionaryEntry struct {
 	WordID int
 }
 
+type POSStats struct {
+	BasicRatio map[string]int
+	ExtendedRatio map[string]map[string]int
+	TokensByPOS map[string][]Token
+	UniqueTokensByPOS map[string]map[string]int
+}
+
 type ParserResult struct {
 	Tokens []Token
-	POSRatio []int
-	UniqueWords []Token
 	HKKRatio map[string]int
+	POSStats POSStats
 }
