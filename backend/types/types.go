@@ -20,14 +20,14 @@ type DictionaryEntry struct {
 }
 
 type POSStats struct {
-	BasicRatio map[string]int
-	ExtendedRatio map[string]map[string]int
+	BasicRatio map[string]float64
+	ExtendedRatio map[string]map[string]float64
 	TokensByPOS map[string][]Token
 	UniqueTokensByPOS map[string]map[string]int
 }
 
 type ParserResult struct {
 	Tokens []Token
-	HKKRatio map[string]int
+	HKKRatio map[string]float64
 	POSStats POSStats
 }

@@ -8,7 +8,7 @@ import (
 	"unicode/utf8"
 )
 
-func GetHKKRatio(tokens []types.Token) map[string]int {
+func GetHKKRatio(tokens []types.Token) map[string]float64 {
 	total, hiragana, katakana, kanji := 0, 0, 0, 0
 	for _, t := range tokens {
 		if kana.IsKana(t.Surface) || kana.IsKanji(t.Surface) {
@@ -38,16 +38,16 @@ func GetHKKRatio(tokens []types.Token) map[string]int {
 		}
 	}
 
-	return map[string]int{
-		"hiragana": hiragana*100/total,
-		"katakana": katakana*100/total,
-		"kanji": kanji*100/total,
+	return map[string]float64{
+		"hiragana": float64(hiragana)*100/float64(total),
+		"katakana": float64(katakana)*100/float64(total),
+		"kanji": float64(kanji)*100/float64(total),
 	}
 }
 
 func GetPOSStats(tokens []types.Token) types.POSStats {
-	basic := make(map[string]int)
-	extended := make(map[string]map[string]int)
+	basic := make(map[string]float64)
+	extended := make(map[string]map[string]float64)
 	tokensByPOS := make(map[string][]types.Token)
 	uniqueTokensByPOS := make(map[string]map[string]int)
 	total := 0
@@ -59,7 +59,7 @@ func GetPOSStats(tokens []types.Token) types.POSStats {
 		basic[t.POS[0]] += 1
 
 		if _, ok := extended[t.POS[0]]; !ok {
-			extended[t.POS[0]] = make(map[string]int)
+			extended[t.POS[0]] = make(map[string]float64)
 		}
 		extended[t.POS[0]][t.POS[1]] += 1
 
@@ -78,7 +78,7 @@ func GetPOSStats(tokens []types.Token) types.POSStats {
 		for key, value := range subPos {
 			subPos[key] = value*100/basic[posName]
 		}
-		basic[posName] = basic[posName]*100/total
+		basic[posName] = basic[posName]*100/float64(total)
 	}
 	return types.POSStats{
 		BasicRatio: basic,
