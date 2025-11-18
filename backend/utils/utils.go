@@ -25,7 +25,7 @@ func KanaToPolivanov(s string) (formatted string) {
 	formatted = ReplaceAll(
 		formatted,
 		[]string{"a", "i", "u", "e", "o", "k", "s", "j", "t", "ch", "n", "h", "m", "r", "w", "g", "z", "d", "b", "p", "y", "f"},
-		[]string{"а", "и", "у", "э", "о", "к", "с", "дз", "т", "т", "н", "х", "м", "р", "в", "г", "дз","д", "б", "п", "й", "ф"},
+		[]string{"а", "и", "у", "э", "о", "к", "с", "дз", "т", "тй", "н", "х", "м", "р", "в", "г", "дз","д", "б", "п", "й", "ф"},
 	)
 	formatted = ReplaceAll(
 		formatted,
@@ -34,8 +34,8 @@ func KanaToPolivanov(s string) (formatted string) {
 	)
 	formatted = ReplaceAll(
 		formatted,
-		[]string{"йа", "йу", "йо", "тс", "сх", "ху", "�"},
-		[]string{"я", "ю", "ё", "ц", "с", "фу", ""},
+		[]string{"сх", "йа", "йи", "йу", "йо", "тс", "ху", "�"},
+		[]string{"сй", "я",  "и",  "ю",  "ё",  "ц",  "фу", ""},
 	)
 	formatted = ReplaceAll(
 		formatted,
