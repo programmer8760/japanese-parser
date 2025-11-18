@@ -28,7 +28,7 @@ func NewParser() (*Parser, error) {
 	return &Parser{tokenizer: t, dictionary: d}, nil
 }
 
-func (p *Parser) Tokenize(text string) ([]types.Token, error) {
+func (p *Parser) Tokenize(text string) []types.Token {
 	tokens := p.tokenizer.Tokenize(text)
 	result := make([]types.Token, 0, len(tokens))
 
@@ -100,5 +100,5 @@ func (p *Parser) Tokenize(text string) ([]types.Token, error) {
 			Polivanov: utils.KanaToPolivanov(reading),
 		})
 	}
-	return result, nil
+	return result
 }
