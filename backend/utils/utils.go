@@ -1,6 +1,7 @@
 package utils
 
 import (
+	"github.com/programmer8760/japanese-parser/backend/types"
 	"github.com/gojp/kana"
 	"strings"
 )
@@ -61,4 +62,14 @@ func ReplaceAll(haystack string, needles []string, replacements []string) (repla
 
 func KanaToRomaji(s string) string {
 	return ReplaceAll(kana.KanaToRomaji(s), []string{"nn", "�"}, []string{"n'", ""})
+}
+
+func GetUniqueTokens(stats types.POSStats) (uniqueTokens []types.Token) {
+	for pos, tokens := range stats.UniqueTokensByPOS {
+		for _, i := range tokens {
+			uniqueTokens = append(uniqueTokens, stats.TokensByPOS[pos][i])
+		}
+	}
+
+	return
 }
