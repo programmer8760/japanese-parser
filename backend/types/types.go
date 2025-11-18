@@ -21,7 +21,7 @@ type DictionaryEntry struct {
 
 type ParserResult struct {
 	Tokens []Token
-	HKKRatio []int
 	POSRatio []int
 	UniqueWords []Token
+	HKKRatio map[string]int
 }

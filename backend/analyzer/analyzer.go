@@ -8,7 +8,7 @@ import (
 	"unicode/utf8"
 )
 
-func GetHKKRatio(tokens []types.Token) []int {
+func GetHKKRatio(tokens []types.Token) map[string]int {
 	total, hiragana, katakana, kanji := 0, 0, 0, 0
 	for _, t := range tokens {
 		if kana.IsKana(t.Surface) || kana.IsKanji(t.Surface) {
@@ -38,9 +38,9 @@ func GetHKKRatio(tokens []types.Token) []int {
 		}
 	}
 
-	return []int{
-		hiragana*100/total,
-		katakana*100/total,
-		kanji*100/total,
+	return map[string]int{
+		"hiragana": hiragana*100/total,
+		"katakana": katakana*100/total,
+		"kanji": kanji*100/total,
 	}
 }
