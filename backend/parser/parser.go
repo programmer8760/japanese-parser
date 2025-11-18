@@ -4,6 +4,7 @@ import (
 	"github.com/programmer8760/japanese-parser/backend/types"
 	"github.com/programmer8760/japanese-parser/backend/dictionary"
 	"github.com/programmer8760/japanese-parser/backend/utils"
+	"github.com/programmer8760/japanese-parser/backend/analyzer"
 
 	"github.com/ikawaha/kagome-dict/ipa"
   "github.com/ikawaha/kagome/v2/tokenizer"
@@ -101,4 +102,13 @@ func (p *Parser) Tokenize(text string) []types.Token {
 		})
 	}
 	return result
+}
+
+func (p *Parser) Parse(text string) types.ParserResult {
+	tokens := p.Tokenize(text)
+	return types.ParserResult{
+		Tokens: tokens,
+		HKKRatio: analyzer.GetHKKRatio(tokens),
+		POSStats: analyzer.GetPOSStats(tokens),
+	}
 }
