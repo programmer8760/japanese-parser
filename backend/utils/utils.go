@@ -45,8 +45,8 @@ func KanaToPolivanov(s string) (formatted string) {
 	)
 	formatted = ReplaceAll(
 		formatted,
-		[]string{"оу", "ёу"},
-		[]string{"о:", "ё:"},
+		[]string{"оу", "ёу", "юу"},
+		[]string{"о:", "ё:", "ю:"},
 	)
 
 	return
