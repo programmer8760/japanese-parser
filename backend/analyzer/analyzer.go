@@ -44,3 +44,46 @@ func GetHKKRatio(tokens []types.Token) map[string]int {
 		"kanji": kanji*100/total,
 	}
 }
+
+func GetPOSStats(tokens []types.Token) types.POSStats {
+	basic := make(map[string]int)
+	extended := make(map[string]map[string]int)
+	tokensByPOS := make(map[string][]types.Token)
+	uniqueTokensByPOS := make(map[string]map[string]int)
+	total := 0
+	for _, t := range tokens {
+		if t.POS[0] == "記号" { //skip whitespaces, dots and other symbols
+			continue
+		}
+
+		basic[t.POS[0]] += 1
+
+		if _, ok := extended[t.POS[0]]; !ok {
+			extended[t.POS[0]] = make(map[string]int)
+		}
+		extended[t.POS[0]][t.POS[1]] += 1
+
+		tokensByPOS[t.POS[0]] = append(tokensByPOS[t.POS[0]], t)
+
+		if _, ok := uniqueTokensByPOS[t.POS[0]]; !ok {
+			uniqueTokensByPOS[t.POS[0]] = make(map[string]int)
+		}
+		if _, exists := uniqueTokensByPOS[t.POS[0]][t.BaseForm]; !exists {
+			uniqueTokensByPOS[t.POS[0]][t.BaseForm] = len(tokensByPOS[t.POS[0]]) - 1
+		}
+
+		total += 1
+	}
+	for posName, subPos := range extended {
+		for key, value := range subPos {
+			subPos[key] = value*100/basic[posName]
+		}
+		basic[posName] = basic[posName]*100/total
+	}
+	return types.POSStats{
+		BasicRatio: basic,
+		ExtendedRatio: extended,
+		TokensByPOS: tokensByPOS,
+		UniqueTokensByPOS: uniqueTokensByPOS,
+	}
+}
