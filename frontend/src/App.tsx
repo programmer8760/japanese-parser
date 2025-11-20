@@ -1,15 +1,34 @@
-import './App.css'
+import './App.css';
+import InputPage from './pages/InputPage';
+import ResultsPage from './pages/ResultsPage';
+import { useState, useEffect } from 'react';
+import { Parse } from '../wailsjs/go/app/App';
+import { types } from '../wailsjs/go/models';
 
 function App() {
+  const [input, setInput] = useState<string>("");
+  const [parserResult, setParserResult] = useState<types.ParserResult | null>(null);
+
+  useEffect(() => {
+    if (!input) {
+      return;
+    }
+    const run = async () => {
+      const res = await Parse(input);
+      setParserResult(res);
+    };
+    run();
+  }, [input]);
+
+  if (input === "") {
     return (
-        <div className="min-h-screen bg-white grid grid-cols-1 place-items-center justify-items-center mx-auto py-8">
-            <div className="text-blue-900 text-2xl font-bold font-mono">
-                <h1 className="content-center">PRAGUE</h1>
-            </div>
-            <div className="w-fit max-w-md">
-            </div>
-        </div>
+      <InputPage onSubmit={(v: string) => setInput(v)} />
+    );
+  } else {
+    return (
+      <ResultsPage parserResult={parserResult} reset={() => setInput("")} />
     )
+  }
 }
 
-export default App
+export default App;
