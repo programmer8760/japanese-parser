@@ -48,10 +48,10 @@ func (a *App) shutdown(ctx context.Context) {
 	// Perform your teardown here
 }
 
-func (a *App) Tokenize(text string) ([]types.Token, error) {
+func (a *App) Parse(text string) (types.ParserResult, error) {
 	if a.parser == nil {
-		return nil, fmt.Errorf("parser not initialized")
+		return types.ParserResult{}, fmt.Errorf("parser not initialized")
 	}
-	
-	return a.parser.Tokenize(text)
+
+	return a.parser.Parse(text), nil
 }
