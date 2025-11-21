@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button"
 import { Switch } from "@/components/ui/switch"
 import { Label } from "@/components/ui/label"
+import { Separator } from "@/components/ui/separator"
 import { types } from '../../wailsjs/go/models'
 import { useState } from 'react';
 
@@ -68,6 +69,36 @@ function ResultsPage({ parserResult, reset } : ResultsPageProps) {
           <p className='text-xl'>Хирагана: {parserResult.HKKRatio.hiragana.toFixed(2)}%</p>
           <p className='text-xl'>Катакана: {parserResult.HKKRatio.katakana.toFixed(2)}%</p>
           <p className='text-xl'>Кандзи: {parserResult.HKKRatio.kanji.toFixed(2)}%</p>
+        </div>
+        <div className='flex flex-col place-items-center border border-solid border-secondary p-4'>
+          <p className='text-2xl mb-4'>Соотношение частей речи</p>
+          <div className='flex w-full'>
+            <span className='text-xl text-center w-1/2'>Часть речи</span>
+            <span className='text-xl text-center w-1/2'>Подклассы</span>
+          </div>
+          <div className='flex flex-col gap-y-4'>
+            {Object.entries(parserResult.POSStats.ExtendedRatio).map(([POS, subs]) => (
+              <>
+                <Separator />
+                <div key={POS} className='grid grid-cols-2'>
+                  <div className='flex flex-wrap place-items-center min-w-1/2 gap-x-2'>
+                    <span className={`text-2xl ${POSStyles.has(POS) ? POSStyles.get(POS) : 'text-gray-300'}`}>{POS}</span>
+                    <span className='text-xl'>{parserResult.POSStats.BasicRatio[POS].toFixed(2)}%</span>
+                  </div>
+                  <div className='flex flex-col place-items-center min-w-1/2'>
+                    {Object.entries(subs).map(([subPOS, value]) => subPOS !== '*' ? (
+                      <div className='flex flex-wrap place-items-center gap-x-2'>
+                        <span className='text-xl'>{subPOS}</span>
+                        <span className='text-lg'>{parseFloat(value as string).toFixed(2)}%</span>
+                      </div>
+                    ) : (
+                      <span>—</span>
+                    ))}
+                  </div>
+                </div>
+              </>
+            ))}
+          </div>
         </div>
       </div>
     </>
