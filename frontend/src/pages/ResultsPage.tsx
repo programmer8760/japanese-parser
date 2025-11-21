@@ -39,10 +39,8 @@ function ResultsPage({ parserResult, reset } : ResultsPageProps) {
                 <>
                   {showPolivanov && <span className='text-sm'>{token.Polivanov}</span>}
                   {showRomaji && <span className='text-sm'>{token.Romaji}</span>}
-                  {token.Surface !== token.Reading && (
-                    <>
-                      {showFurigana && <span className='text-sm'>{token.Reading}</span>}
-                    </>
+                  {(showFurigana && token.Surface !== token.Reading) && (
+                    <span className='text-sm'>{token.Reading}</span>
                   )}
                 </>
               )}
