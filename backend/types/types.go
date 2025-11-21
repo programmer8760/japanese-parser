@@ -4,6 +4,7 @@ type Token struct {
 	Surface string
 	POS []string
 	BaseForm string
+	BaseFormReading string
 	InflectionalForm string
 	InflectionalType string
 	Translations []DictionaryEntry

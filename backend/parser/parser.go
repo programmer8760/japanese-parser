@@ -67,9 +67,11 @@ func (p *Parser) Tokenize(text string) []types.Token {
 		}
 
 		var translations []types.DictionaryEntry
+		baseFormReading := "*"
+		baseFormReadingExists := false
 		if token.Surface != baseForm {
 			baseFormToken := p.tokenizer.Tokenize(baseForm)
-			baseFormReading, baseFormReadingExists := baseFormToken[0].Reading()
+			baseFormReading, baseFormReadingExists = baseFormToken[0].Reading()
 			if baseFormReadingExists {
 				baseFormReading = utils.KatakanaToHiragana(baseFormReading)
 				translations = p.dictionary.Lookup(
@@ -77,12 +79,14 @@ func (p *Parser) Tokenize(text string) []types.Token {
 					baseFormReading,
 				)
 			} else {
+				baseFormReading = reading
 				translations = p.dictionary.Lookup(
 					token.Surface,
 					reading,
 				)
 			}
 		} else {
+			baseFormReading = reading
 			translations = p.dictionary.Lookup(
 				token.Surface,
 				reading,
@@ -93,6 +97,7 @@ func (p *Parser) Tokenize(text string) []types.Token {
 			Surface: token.Surface,
 			POS: POS,
 			BaseForm: baseForm,
+			BaseFormReading: baseFormReading,
 			InflectionalForm: inflectionalForm,
 			InflectionalType: inflectionalType,
 			Translations: translations,
