@@ -27,8 +27,10 @@ function ResultsPage({ parserResult, reset } : ResultsPageProps) {
 
   return(
     <div className="w-full grid grid-cols-1 justify-items-center mx-auto py-8 ">
+    {parserResult ? (
+      <>
       <div className="flex flex-wrap gap-x-2 border border-solid border-secondary text-4xl mx-8 p-4">
-        {parserResult ? parserResult.Tokens.map((token, key) => {
+        {parserResult.Tokens.map((token, key) => {
           if ((token.Surface.match(/\n/g) || []).length != 0) {
             return <div key={key} className="basis-full h-0"></div>;
           } else return (
@@ -46,8 +48,7 @@ function ResultsPage({ parserResult, reset } : ResultsPageProps) {
               )}
               <span className='mt-auto'>{token.Surface}</span>
             </div>
-          )}
-        ) : (<p>чтото пошло не так</p>)}
+          )})}
       </div>
       <div className='flex flex-wrap gap-4 mt-4'>
         <div className="flex items-center space-x-2">
@@ -63,9 +64,11 @@ function ResultsPage({ parserResult, reset } : ResultsPageProps) {
           <Label htmlFor="polivanov">Показывать киридзи</Label>
         </div>
       </div>
-      <Button
-        onClick={reset}
-      >
+    </>
+    ) : (
+      <p>ожидайте</p>
+    )}
+      <Button onClick={reset} >
         Сбросить
       </Button>
     </div>
