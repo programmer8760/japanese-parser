@@ -62,6 +62,14 @@ function ResultsPage({ parserResult, reset } : ResultsPageProps) {
           <Label htmlFor="polivanov">Показывать киридзи</Label>
         </div>
       </div>
+      <div className='flex flex-wrap gap-4 mt-8 pl-8 w-fit'>
+        <div className='border border-solid border-secondary text-center p-4'>
+          <p className='text-2xl mb-4'>Соотношение символов</p>
+          <p className='text-xl'>Хирагана: {parserResult.HKKRatio.hiragana.toFixed(2)}%</p>
+          <p className='text-xl'>Катакана: {parserResult.HKKRatio.katakana.toFixed(2)}%</p>
+          <p className='text-xl'>Кандзи: {parserResult.HKKRatio.kanji.toFixed(2)}%</p>
+        </div>
+      </div>
     </>
     ) : (
       <p>ожидайте</p>
