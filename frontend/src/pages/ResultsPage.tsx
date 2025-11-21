@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button"
 import { Switch } from "@/components/ui/switch"
 import { Label } from "@/components/ui/label"
 import { Separator } from "@/components/ui/separator"
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 import { types } from '../../wailsjs/go/models'
 import { useState } from 'react';
 
@@ -45,7 +46,35 @@ function ResultsPage({ parserResult, reset } : ResultsPageProps) {
                   )}
                 </>
               )}
-              <span className='mt-auto'>{token.Surface}</span>
+              <Popover>
+                <PopoverTrigger className='mt-auto hover:underline underline-offset-[6px] decoration-3'>{token.Surface}</PopoverTrigger>
+                <PopoverContent className='w-auto max-w-4xl' align='start' collisionPadding={20}>
+                  <div className='flex gap-x-4'>
+                    <div className='flex flex-col place-items-center whitespace-nowrap'>
+                      {token.BaseForm !== token.BaseFormReading && (
+                        <p className='text-xs'>{token.BaseFormReading !== '*' ? token.BaseFormReading : token.Reading}</p>
+                      )}
+                      <p className='text-3xl'>{token.BaseForm}</p>
+                    </div>
+                    <div className='flex flex-col gap-y-2'>
+                      <p className='whitespace-nowrap'>Часть речи: {token.POS[0]}{token.POS[1] !== '*' && ', ' + token.POS[1]}</p>
+                      <Separator />
+                      {token.Translations !== null ? token.Translations[0].Translations.map((translation, key) => (
+                        <p key={key}>{translation}</p>
+                      )) : (
+                        <p>Значение не найдено</p>
+                      )}
+                      {token.InflectionalForm !== '*' && (
+                        <>
+                          <Separator />
+                          <p>Спряжение:</p>
+                          <p className='whitespace-nowrap'>{token.Surface} — {token.InflectionalForm}</p>
+                        </>
+                      )}
+                    </div>
+                  </div>
+                </PopoverContent>
+              </Popover>
             </div>
           )})}
       </div>
