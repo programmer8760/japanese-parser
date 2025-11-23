@@ -3,8 +3,9 @@ import { Switch } from "@/components/ui/switch"
 import { Label } from "@/components/ui/label"
 import { Separator } from "@/components/ui/separator"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
+import { GetUniqueTokens } from '../../wailsjs/go/app/App';
 import { types } from '../../wailsjs/go/models'
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 interface ResultsPageProps {
   parserResult: types.ParserResult | null;
@@ -26,6 +27,20 @@ function ResultsPage({ parserResult, reset } : ResultsPageProps) {
   const [showFurigana, setShowFurigana] = useState<boolean>(true);
   const [showRomaji, setShowRomaji] = useState<boolean>(false);
   const [showPolivanov, setShowPolivanov] = useState<boolean>(false);
+  const [showUnique, setShowUnique] = useState<boolean>(true);
+  const [tokensByPOS, setTokensByPOS] = useState<Record<string, Array<types.Token>>>({});
+
+  useEffect(() => {
+    if (!parserResult) {
+      return;
+    }
+    const run = async () => {
+      const res = await GetUniqueTokens(parserResult.POSStats);
+      setTokensByPOS(res);
+    };
+    showUnique ? run() : setTokensByPOS(parserResult.POSStats.TokensByPOS);
+  }, [showUnique, parserResult])
+  
 
   return(
     <div className="w-full grid grid-cols-1 justify-items-center mx-auto py-8 ">
@@ -125,6 +140,58 @@ function ResultsPage({ parserResult, reset } : ResultsPageProps) {
               </>
             ))}
           </div>
+        </div>
+        <div className='flex flex-col place-items-center border border-solid border-secondary p-4'>
+          <p className='text-2xl'>Токены по частям речи</p>
+          <div className="flex items-center space-x-2 mb-4">
+            <Switch id="unique" checked={showUnique} onCheckedChange={(checked: boolean) => setShowUnique(checked)} />
+            <Label htmlFor="unique">Скрыть дубликаты</Label>
+          </div>
+          <div className='grid grid-cols-2 w-full whitespace-nowrap gap-x-4'>
+            <span className='text-xl text-center'>Часть речи</span>
+            <span className='text-xl text-center'>Токены</span>
+          </div>
+          {Object.entries(tokensByPOS).map(([POS, tokens]) => (
+            <>
+              <Separator />
+              <div key={POS} className='grid grid-cols-2 place-items-center w-full p-4'>
+                <span className={`text-3xl ${POSStyles.has(POS) ? POSStyles.get(POS) : 'text-gray-300'}`}>{POS}</span>
+                <div className='flex flex-wrap gap-x-4 w-full place-content-center'>
+                  {Object.entries(tokens).map(([key, token]) => (
+                    <Popover>
+                      <PopoverTrigger className='text-2xl hover:underline underline-offset-[6px] decoration-3'>{token.Surface}</PopoverTrigger>
+                      <PopoverContent className='w-auto max-w-4xl' align='start' collisionPadding={20}>
+                        <div className='flex gap-x-4'>
+                          <div className='flex flex-col place-items-center whitespace-nowrap'>
+                            {token.BaseForm !== token.BaseFormReading && (
+                              <p className='text-xs'>{token.BaseFormReading !== '*' ? token.BaseFormReading : token.Reading}</p>
+                            )}
+                            <p className='text-3xl'>{token.BaseForm}</p>
+                          </div>
+                          <div className='flex flex-col gap-y-2'>
+                            <p className='whitespace-nowrap'>Часть речи: {token.POS[0]}{token.POS[1] !== '*' && ', ' + token.POS[1]}</p>
+                            <Separator />
+                            {token.Translations !== null ? token.Translations[0].Translations.map((translation, key) => (
+                              <p key={key}>{translation}</p>
+                            )) : (
+                              <p>Значение не найдено</p>
+                            )}
+                            {token.InflectionalForm !== '*' && (
+                              <>
+                                <Separator />
+                                <p>Спряжение:</p>
+                                <p className='whitespace-nowrap'>{token.Surface} — {token.InflectionalForm}</p>
+                              </>
+                            )}
+                          </div>
+                        </div>
+                      </PopoverContent>
+                      </Popover>
+                  ))}
+                </div>
+              </div>
+            </>
+          ))}
         </div>
         <div className='border border-solid border-secondary text-center p-4 place-self-start w-full'>
           <p className='text-2xl mb-4'>Соотношение символов</p>
