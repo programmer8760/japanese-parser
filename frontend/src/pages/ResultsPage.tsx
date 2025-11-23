@@ -105,11 +105,11 @@ function ResultsPage({ parserResult, reset } : ResultsPageProps) {
             <span className='text-xl text-center w-1/2'>Часть речи</span>
             <span className='text-xl text-center w-1/2'>Подклассы</span>
           </div>
-          <div className='flex flex-col gap-y-4'>
+          <div className='flex flex-col gap-y-4 w-full'>
             {Object.entries(parserResult.POSStats.ExtendedRatio).map(([POS, subs]) => (
               <>
                 <Separator />
-                <div key={POS} className='grid grid-cols-2'>
+                <div key={POS} className='grid grid-cols-2 place-items-center'>
                   <div className='flex flex-wrap place-items-center min-w-1/2 gap-x-2'>
                     <span className={`text-2xl ${POSStyles.has(POS) ? POSStyles.get(POS) : 'text-gray-300'}`}>{POS}</span>
                     <span className='text-xl'>{parserResult.POSStats.BasicRatio[POS].toFixed(2)}%</span>
