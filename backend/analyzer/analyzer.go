@@ -37,7 +37,9 @@ func GetHKKRatio(tokens []types.Token) map[string]float64 {
 			}
 		}
 	}
-
+	if total == 0 {
+		total = 1
+	}
 	return map[string]float64{
 		"hiragana": float64(hiragana)*100/float64(total),
 		"katakana": float64(katakana)*100/float64(total),
