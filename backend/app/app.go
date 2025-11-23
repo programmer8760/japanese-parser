@@ -7,6 +7,7 @@ import (
 
 	"github.com/programmer8760/japanese-parser/backend/parser"
 	"github.com/programmer8760/japanese-parser/backend/types"
+	"github.com/programmer8760/japanese-parser/backend/utils"
 )
 
 // App struct
@@ -60,4 +61,8 @@ func (a *App) Parse(text string) (types.ParserResult, error) {
 	}
 
 	return a.parser.Parse(text), nil
+}
+
+func (a *App) GetUniqueTokens(stats types.POSStats) map[string][]types.Token {
+	return utils.GetUniqueTokens(stats)
 }
