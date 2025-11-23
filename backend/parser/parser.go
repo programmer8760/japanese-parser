@@ -37,6 +37,9 @@ func (p *Parser) Tokenize(text string) []types.Token {
 		reading, readingExist := token.Reading()
 		baseForm, baseFormExist := token.BaseForm()
 		POS := token.POS()
+		if !kana.IsKana(token.Surface) && !kana.IsKanji(token.Surface) && POS[1] == "固有名詞" {
+			POS = []string{"*", "*",}
+		}
 
 		switch token.Surface {
 		case "は":
