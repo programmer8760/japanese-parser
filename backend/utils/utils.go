@@ -61,7 +61,7 @@ func ReplaceAll(haystack string, needles []string, replacements []string) (repla
 }
 
 func KanaToRomaji(s string) string {
-	return ReplaceAll(kana.KanaToRomaji(s), []string{"nn", "�"}, []string{"n'", ""})
+	return ReplaceAll(kana.KanaToRomaji(s), []string{"nn", "�", "hu"}, []string{"n'", "", "fu"})
 }
 
 func GetUniqueTokens(stats types.POSStats) (uniqueTokens []types.Token) {
