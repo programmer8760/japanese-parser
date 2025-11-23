@@ -92,7 +92,7 @@ function ResultsPage({ parserResult, reset } : ResultsPageProps) {
           <Label htmlFor="polivanov">Показывать киридзи</Label>
         </div>
       </div>
-      <div className='flex flex-wrap gap-4 mt-8 pl-8 w-fit'>
+      <div className='grid grid-cols-2 grid-rows-2 gap-4 mt-8 p-8 w-full'>
         <div className='flex flex-col place-items-center border border-solid border-secondary p-4'>
           <p className='text-2xl mb-4'>Соотношение частей речи</p>
           <div className='flex w-full'>
