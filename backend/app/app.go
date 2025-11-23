@@ -8,6 +8,7 @@ import (
 	"github.com/programmer8760/japanese-parser/backend/parser"
 	"github.com/programmer8760/japanese-parser/backend/types"
 	"github.com/programmer8760/japanese-parser/backend/utils"
+	"github.com/programmer8760/japanese-parser/backend/exporter"
 )
 
 // App struct
@@ -80,3 +81,30 @@ func (a *App) SaveFile(extension string) (string, error) {
     }
     return path, nil
 }
+
+func (a *App) ExportTxt(parserResult types.ParserResult) error {
+	path, err := a.SaveFile(".txt")
+	if err != nil {
+		return err
+	}
+
+	if path == "" {
+		return nil
+	}
+
+	return exporter.ExportTxt(parserResult, path)
+}
+
+func (a *App) ExportCsv(parserResult types.ParserResult) error {
+	path, err := a.SaveFile(".csv")
+	if err != nil {
+		return err
+	}
+
+	if path == "" {
+		return nil
+	}
+
+	return exporter.ExportCsv(parserResult, path)
+}
+
