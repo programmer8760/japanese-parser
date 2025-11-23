@@ -66,3 +66,17 @@ func (a *App) Parse(text string) (types.ParserResult, error) {
 func (a *App) GetUniqueTokens(stats types.POSStats) map[string][]types.Token {
 	return utils.GetUniqueTokens(stats)
 }
+
+func (a *App) SaveFile(extension string) (string, error) {
+    path, err := runtime.SaveFileDialog(a.ctx, runtime.SaveDialogOptions{
+        Title:           "Сохранить как",
+        DefaultFilename: "output" + extension,
+        Filters: []runtime.FileFilter{
+					{DisplayName: "*" + extension, Pattern: "*" + extension},
+        },
+    })
+    if err != nil {
+        return "", err
+    }
+    return path, nil
+}
