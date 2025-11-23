@@ -64,12 +64,13 @@ func KanaToRomaji(s string) string {
 	return ReplaceAll(kana.KanaToRomaji(s), []string{"nn", "�", "hu"}, []string{"n'", "", "fu"})
 }
 
-func GetUniqueTokens(stats types.POSStats) (uniqueTokens []types.Token) {
+func GetUniqueTokens(stats types.POSStats) map[string][]types.Token {
+	uniqueTokens := make(map[string][]types.Token)
 	for pos, tokens := range stats.UniqueTokensByPOS {
 		for _, i := range tokens {
-			uniqueTokens = append(uniqueTokens, stats.TokensByPOS[pos][i])
+			uniqueTokens[pos] = append(uniqueTokens[pos], stats.TokensByPOS[pos][i])
 		}
 	}
 
-	return
+	return uniqueTokens
 }
