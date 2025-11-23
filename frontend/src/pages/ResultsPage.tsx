@@ -132,7 +132,9 @@ function ResultsPage({ parserResult, reset } : ResultsPageProps) {
       </div>
     </>
     ) : (
-      <p>ожидайте</p>
+      <>
+        <p className="text-6xl text-center mt-32">Идет обработка...</p>
+      </>
     )}
       <Button onClick={reset} >
         Сбросить
