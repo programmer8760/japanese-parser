@@ -3,6 +3,7 @@ package app
 import (
 	"fmt"
 	"context"
+	"github.com/wailsapp/wails/v2/pkg/runtime"
 
 	"github.com/programmer8760/japanese-parser/backend/parser"
 	"github.com/programmer8760/japanese-parser/backend/types"
@@ -24,11 +25,16 @@ func (a *App) Startup(ctx context.Context) {
 	// Perform your setup here
 	a.ctx = ctx
 
-	var err error
-	a.parser, err = parser.NewParser()
-	if err != nil {
-		fmt.Println("Error initializing parser: ", err.Error())
-	}
+	go func() {
+		var err error
+		a.parser, err = parser.NewParser()
+		if err != nil {
+			fmt.Println("Error initializing parser: ", err.Error())
+			return
+		}
+
+		runtime.EventsEmit(ctx, "parserReady", true)
+	}()
 }
 
 // domReady is called after front-end resources have been loaded
