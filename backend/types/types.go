@@ -5,8 +5,9 @@ type Token struct {
 	POS []string
 	BaseForm string
 	BaseFormReading string
+	BaseFormRomaji string
+	BaseFormPolivanov string
 	InflectionalForm string
-	InflectionalType string
 	Translations []DictionaryEntry
 	Reading string
 	Romaji string

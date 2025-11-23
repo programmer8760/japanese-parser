@@ -48,7 +48,6 @@ func (p *Parser) Tokenize(text string) []types.Token {
 		}
 
 		inflectionalForm, inflectionalFormExist := token.InflectionalForm()
-		inflectionalType, inflectionalTypeExist := token.InflectionalType()
 		if !readingExist {
 			reading = "*"
 		}
@@ -57,9 +56,6 @@ func (p *Parser) Tokenize(text string) []types.Token {
 		}
 		if !inflectionalFormExist {
 			inflectionalForm = "*"
-		}
-		if !inflectionalTypeExist {
-			inflectionalType = "*"
 		}
 
 		if !kana.IsKatakana(token.Surface) {
@@ -98,8 +94,9 @@ func (p *Parser) Tokenize(text string) []types.Token {
 			POS: POS,
 			BaseForm: baseForm,
 			BaseFormReading: baseFormReading,
+			BaseFormRomaji: utils.KanaToRomaji(baseFormReading),
+			BaseFormPolivanov: utils.KanaToPolivanov(baseFormReading),
 			InflectionalForm: inflectionalForm,
-			InflectionalType: inflectionalType,
 			Translations: translations,
 			Reading: reading,
 			Romaji: utils.KanaToRomaji(reading),
