@@ -116,7 +116,7 @@ function ResultsPage({ parserResult, reset } : ResultsPageProps) {
                   </div>
                   <div className='flex flex-col place-items-center min-w-1/2'>
                     {Object.entries(subs).map(([subPOS, value]) => subPOS !== '*' ? (
-                      <div className='flex flex-wrap place-items-center gap-x-2'>
+                      <div key={subPOS} className='flex flex-wrap place-items-center gap-x-2'>
                         <span className='text-xl'>{subPOS}</span>
                         <span className='text-lg'>{parseFloat(value as string).toFixed(2)}%</span>
                       </div>
