@@ -3,7 +3,7 @@ import { Switch } from "@/components/ui/switch"
 import { Label } from "@/components/ui/label"
 import { Separator } from "@/components/ui/separator"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
-import { GetUniqueTokens } from '../../wailsjs/go/app/App';
+import { GetUniqueTokens, ExportTxt, ExportCsv } from '../../wailsjs/go/app/App';
 import { types } from '../../wailsjs/go/models'
 import { useState, useEffect } from 'react';
 
@@ -22,6 +22,14 @@ const POSStyles = new Map<string, string>([
   ['助詞', 'text-gray-300'], //particle
   ['接続詞', 'text-gray-300'], //conjunction
 ]);
+
+const onExportTxt = async (parserResult: types.ParserResult) => {
+  await ExportTxt(parserResult);
+};
+
+const onExportCsv = async (parserResult: types.ParserResult) => {
+  await ExportCsv(parserResult);
+};
 
 function ResultsPage({ parserResult, reset } : ResultsPageProps) {
   const [showFurigana, setShowFurigana] = useState<boolean>(true);
@@ -198,6 +206,11 @@ function ResultsPage({ parserResult, reset } : ResultsPageProps) {
           <p className='text-xl'>Хирагана: {parserResult.HKKRatio.hiragana.toFixed(2)}%</p>
           <p className='text-xl'>Катакана: {parserResult.HKKRatio.katakana.toFixed(2)}%</p>
           <p className='text-xl'>Кандзи: {parserResult.HKKRatio.kanji.toFixed(2)}%</p>
+        </div>
+        <div className='flex flex-col gap-y-4 border border-solid border-secondary text-center p-4 place-self-start w-full'>
+          <p className='text-2xl'>Экспорт</p>
+          <Button onClick={() => onExportTxt(parserResult)}>Экспортировать текст</Button>
+          <Button onClick={() => onExportCsv(parserResult)}>Экспортировать токены</Button>
         </div>
       </div>
     </>
