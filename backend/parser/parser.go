@@ -52,18 +52,16 @@ func (p *Parser) Tokenize(text string) []types.Token {
 
 		inflectionalForm, inflectionalFormExist := token.InflectionalForm()
 		if !readingExist {
-			reading = "*"
+			reading = utils.KatakanaToHiragana(token.Surface)
 		}
 		if !baseFormExist {
-			baseForm = "*"
+			baseForm = token.Surface
 		}
 		if !inflectionalFormExist {
 			inflectionalForm = "*"
 		}
 
-		if !kana.IsKatakana(token.Surface) {
-			reading = utils.KatakanaToHiragana(reading)
-		}
+		reading = utils.KatakanaToHiragana(reading)
 
 		var translations []types.DictionaryEntry
 		baseFormReading := "*"

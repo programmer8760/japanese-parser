@@ -17,6 +17,9 @@ func KatakanaToHiragana(s string) string {
 }
 
 func KanaToPolivanov(s string) (formatted string) {
+	if s == "-" {
+		return ""
+	}
 	formatted = kana.KanaToRomaji(s)
 	formatted = ReplaceAll(
 		formatted,
@@ -45,8 +48,8 @@ func KanaToPolivanov(s string) (formatted string) {
 	)
 	formatted = ReplaceAll(
 		formatted,
-		[]string{"оу", "ёу", "юу"},
-		[]string{"о:", "ё:", "ю:"},
+		[]string{"оу", "ёу", "юу", "-"},
+		[]string{"о:", "ё:", "ю:", ":"},
 	)
 
 	return
@@ -61,7 +64,10 @@ func ReplaceAll(haystack string, needles []string, replacements []string) (repla
 }
 
 func KanaToRomaji(s string) string {
-	return ReplaceAll(kana.KanaToRomaji(s), []string{"nn", "�", "hu"}, []string{"n'", "", "fu"})
+	if s == "-" {
+		return ""
+	}
+	return ReplaceAll(kana.KanaToRomaji(s), []string{"nn", "�", "hu", "-"}, []string{"n'", "", "fu", ":"})
 }
 
 func GetUniqueTokens(stats types.POSStats) map[string][]types.Token {
